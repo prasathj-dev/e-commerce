@@ -1,10 +1,13 @@
 
+import { Outlet } from 'react-router'
 import './App.css'
-import HomePage from './pages/home/HomePage'
+import Header from './components/Header'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 //import { Route , Routes } from 'react-router'
 
 function App() {
 
+  const queryClient = new QueryClient();
 
   return (
     <>
@@ -12,7 +15,12 @@ function App() {
         <Route index element={<HomePage/>} />
         <Route path='checkout' element={<Checkout/>} />
       </Routes> */}
-      <HomePage />
+      <QueryClientProvider client={queryClient}>
+        <Header />
+        <main>
+          <Outlet />
+        </main>
+      </QueryClientProvider>
     </>
   )
 }

@@ -1,7 +1,7 @@
 
 import { Outlet } from 'react-router'
 import './App.css'
-import Header from './components/Header'
+import Navbar from './components/Navbar'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 //import { Route , Routes } from 'react-router'
 
@@ -16,7 +16,7 @@ function App() {
         <Route path='checkout' element={<Checkout/>} />
       </Routes> */}
       <QueryClientProvider client={queryClient}>
-        <Header />
+        <Navbar />
         <main>
           <Outlet />
         </main>

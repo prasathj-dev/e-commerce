@@ -1,11 +1,18 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCart } from '../features/cart/api/cartAPI';
 import type { CartItem } from '../features/cart/types/cartItem';
 import { useState } from 'react';
-import { FaBeer, FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
+import { useSearchStore } from '../features/products/store/searchStore';
 
-export default function Header() {
+
+export default function Navbar() {
+    const setSearchText = useSearchStore((state) => state.setSearchText);
+    const navigate = useNavigate();
+
+    const [inputText, setInputText] = useState("");
+
     const [isOpen, setIsOpen] = useState(false);
 
     const { data: carts, isLoading, error } = useQuery<CartItem[]>({
@@ -15,7 +22,10 @@ export default function Header() {
 
     const cartQuantityCount = carts?.reduce((acc, item) => acc + item.quantity, 0)
 
-
+    const onSearch = () => {
+        setSearchText(inputText);
+        navigate("/");
+    }
 
     return (
         <>
@@ -37,6 +47,8 @@ export default function Header() {
                             <input
                                 type="text"
                                 placeholder="Search"
+                                value={inputText}
+                                onChange={(e) => setInputText(e.target.value)}
                                 className="
                                     w-full px-4 py-2 pr-12
                                     rounded-2xl
@@ -48,7 +60,7 @@ export default function Header() {
                             />
 
                             {/* Search button inside input */}
-                            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-1  hover:bg-green-600 rounded-full flex items-center justify-center">
+                            <button onClick={onSearch} className="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-1  hover:bg-green-600 rounded-full flex items-center justify-center">
                                 <FaSearch className="h-5 w-5 text-white" />
                             </button>
                         </div>

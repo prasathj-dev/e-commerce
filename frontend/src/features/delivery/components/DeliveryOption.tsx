@@ -23,7 +23,7 @@ export default function DeliveryOption() {
                         <div key={dp.id} className="delivery-option">
                             <input type="radio" checked
                                 className="delivery-option-input"
-                                name="delivery-option-1" />
+                                name={`delivery-option-${dp.id}`} />
                             <div>
                                 <div className="delivery-option-date">
                                     {dayjs(dp.estimatedDeliveryTimeMs).format('dddd, MMMM')}

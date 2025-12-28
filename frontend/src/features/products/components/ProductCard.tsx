@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useAddToCart } from '../../cart/hooks/useAddToCart';
 import type { Product } from '../types/product';
 
 type ProductProps = {
@@ -5,6 +7,9 @@ type ProductProps = {
 }
 
 export default function ProductCard({ product }: ProductProps) {
+    const { mutate: addToCart } = useAddToCart();
+    const [quantity, setQunatity] = useState<number>(1);
+
     return (
         <>
             <div
@@ -37,7 +42,7 @@ export default function ProductCard({ product }: ProductProps) {
                 </div>
 
                 <div className="mb-3">
-                    <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-300">
+                    <select value={quantity} onChange={(e) => setQunatity(+e.target.value)} className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-300">
                         {[...Array(10).keys()].map((n) => (
                             <option key={n + 1} value={n + 1}>
                                 {n + 1}
@@ -46,7 +51,7 @@ export default function ProductCard({ product }: ProductProps) {
                     </select>
                 </div>
 
-                <button className="bg-emerald-700 hover:bg-emerald-600 text-white font-semibold py-2 rounded-xl transition-colors duration-200 mb-2">
+                <button onClick={() => addToCart({ productId: product.id, quantity: quantity })} className="bg-emerald-700 hover:bg-emerald-600 text-white font-semibold py-2 rounded-xl transition-colors duration-200 mb-2">
                     Add to Cart
                 </button>
 

@@ -1,21 +1,14 @@
-import React from 'react';
 import { type CartItem as CartItemType } from '../types/cartItem';
-import { useQuery } from '@tanstack/react-query';
-import { fetchCart } from '../api/cartAPI';
 import { formatCurrency } from '../../../utils/currency-convert';
 import DeliveryOption from '../../delivery/components/DeliveryOption';
+import { useFetchcartItems } from '../hooks/useFetchCart';
 
-type CartItemProps = {
-  cartItem: CartItemType
-}
+
 
 export default function CartItem() {
 
-  const { data: carts, isLoading, error } = useQuery<CartItemType[]>({
-    queryFn: () => fetchCart(),
-    queryKey: ['cart']
-  })
-  console.log(carts);
+  const { data: carts, isLoading, error } = useFetchcartItems();
+
   return (
     <>
       {carts?.map((item: CartItemType) => (

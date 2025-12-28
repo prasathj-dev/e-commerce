@@ -25,6 +25,7 @@ export default function Navbar() {
     const onSearch = () => {
         setSearchText(inputText);
         navigate("/");
+        setIsOpen(false);
     }
 
     return (
@@ -110,10 +111,12 @@ export default function Navbar() {
                             <input
                                 type="text"
                                 placeholder="Search"
+                                value={inputText}
+                                onChange={(e) => setInputText(e.target.value)}
                                 className="flex-1 px-4 py-2 rounded-bl-2xl rounded-tl-2xl bg-emerald-900 text-white placeholder-gray-400 
                                            focus:outline-none "
                             />
-                            <button className="px-4 py-2 bg-emerald-900 hover:bg-green-700 rounded-br-2xl rounded-tr-2xl flex items-center justify-center">
+                            <button onClick={onSearch} className="px-4 py-2 bg-emerald-900 hover:bg-green-700 rounded-br-2xl rounded-tr-2xl flex items-center justify-center">
                                 <FaSearch className="h-5 w-5 text-gray-100" />
                             </button>
                         </div>

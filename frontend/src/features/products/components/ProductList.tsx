@@ -5,6 +5,9 @@ import type { FetchProductsResponse } from "../types/fetchProductsResponse";
 import type { Product } from "../types/product";
 import ProductCard from "./ProductCard";
 import { useSearchStore } from "../store/searchStore";
+import ErrorState from "../../../components/ErrorState";
+import EmptyState from "./EmptyState";
+import ProductSkeleton from "./ProductSkeleton";
 
 const ProductList = () => {
     const loadMoreRef = useRef<HTMLDivElement>(null);
@@ -30,6 +33,7 @@ const ProductList = () => {
         },
         getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
         initialPageParam: 1,
+        // retry: false,
 
     });
 
@@ -54,14 +58,19 @@ const ProductList = () => {
 
     const products = data?.pages.flatMap(page => page.data) ?? [];
 
+    if (error) {
+        return <ErrorState />;
+    }
+
+    if (isLoading) {
+        return <ProductSkeleton />;
+    }
+
+    if (products.length === 0) return <EmptyState />;
+
     return (
         <>
             <div className="prpduct-results">
-
-                <div>
-                    {isLoading && <p>Loading...</p>}
-                </div>
-
                 <div className="grid mt-22.5 gap-4 p-5 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
                     {
                         products?.map((product: Product) => (

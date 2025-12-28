@@ -16,3 +16,17 @@ export const addToCart = async ({
   const response = await api.post(`/cart-items`, { productId, quantity });
   return response.data;
 };
+
+export const updateDeliveryOption = async ({
+  productId,
+  deliveryOptionId,
+}: {
+  productId: string;
+  deliveryOptionId: string;
+}): Promise<CartItem[]> => {
+  const response = await api.put(`/cart-items/${productId}`, {
+    productId,
+    deliveryOptionId,
+  });
+  return response.data;
+};

@@ -3,14 +3,20 @@ import { fetachDeliveryOptions } from '../api/ deliveryApi';
 import type { DeliveryOption } from '../types/deliveryOption'
 import dayjs from 'dayjs';
 import { formatCurrency } from '../../../utils/currency-convert';
+import { UseUpdateDeliveryOption } from '../../cart/hooks/useUpdateDeliveryOption';
+import type { CartItem } from '../../cart/types/cartItem';
+import { useDeliveryOptions } from '../hooks/useDeliveryOptions';
 
-export default function DeliveryOption() {
-    const { data: deliveryOptions, isLoading, error } = useQuery<DeliveryOption[]>({
-        queryFn: () => fetachDeliveryOptions(),
-        queryKey: ["delivery-options"]
+type deliveryOptionProps = {
+    cartItem: CartItem
+}
 
-    });
-    console.log(deliveryOptions)
+
+export default function DeliveryOption({ cartItem }: deliveryOptionProps) {
+    const { mutate: updateDeliveryOption } = UseUpdateDeliveryOption();
+
+    const { data: deliveryOptions, isLoading, error } = useDeliveryOptions();
+
     return (
         <>
             <div className="delivery-options-title">
@@ -20,20 +26,37 @@ export default function DeliveryOption() {
                 deliveryOptions?.map((dp: DeliveryOption) => {
 
                     return (
-                        <div key={dp.id} className="delivery-option">
-                            <input type="radio" checked
-                                className="delivery-option-input"
-                                name={`delivery-option-${dp.id}`} />
-                            <div>
-                                <div className="delivery-option-date">
-                                    {dayjs(dp.estimatedDeliveryTimeMs).format('dddd, MMMM')}
+                        <label
+                            key={dp.id}
+                            className="flex cursor-pointer items-start gap-3 rounded-lg  p-3 hover:bg-gray-50"
+                        >
+                            <input
+                                type="radio"
+                                name={`delivery-option-${cartItem.productId}`}
+                                checked={cartItem.deliveryOptionId === dp.id}
+                                onChange={() =>
+                                    updateDeliveryOption({
+                                        productId: cartItem.productId,
+                                        deliveryOptionId: dp.id,
+                                    })
+                                }
+                                className="mt-1 h-4 w-4 accent-blue-600"
+                            />
+
+                            <div className="flex flex-col">
+                                <div className="text-sm font-medium text-gray-900">
+                                    {dayjs(dp.estimatedDeliveryTimeMs).format("dddd, MMMM")}
                                 </div>
-                                <div className="delivery-option-price">
-                                    {dp.priceCents > 0 ? `${formatCurrency(dp.priceCents)} - Shipping` : "FREE Shipping"}
+
+                                <div className="text-sm text-gray-500">
+                                    {dp.priceCents > 0
+                                        ? `${formatCurrency(dp.priceCents)} Shipping`
+                                        : "FREE Shipping"}
                                 </div>
                             </div>
-                        </div>
-                    )
+                        </label>
+                    );
+
                 })
             }
         </>

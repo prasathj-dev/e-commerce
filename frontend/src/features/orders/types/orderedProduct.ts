@@ -1,9 +1,8 @@
 import type { Product } from "../../products/types/product";
 
-export type CartItem = {
-  id: string;
+export type OrderedProduct = {
   productId: string;
   quantity: number;
+  estimatedDeliveryTimeMs: number;
   product: Product;
-  deliveryOptionId: string;
 };

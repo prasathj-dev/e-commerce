@@ -30,3 +30,21 @@ export const updateDeliveryOption = async ({
   });
   return response.data;
 };
+
+export const removeCartItem = async ({ productId }: { productId: string }) => {
+  const response = await api.delete(`/cart-items/${productId}`);
+  return response.data;
+};
+
+export const updateCartQuantity = async ({
+  cartItemId,
+  quantity,
+}: {
+  cartItemId: string;
+  quantity: number;
+}) => {
+  const respose = await api.put(`/cart-items/update-quantity/${cartItemId}`, {
+    quantity: quantity,
+  });
+  return respose.data;
+};

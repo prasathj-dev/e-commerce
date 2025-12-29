@@ -12,7 +12,7 @@ const PaymentSummary = () => {
                 paymentSummary && (
                     <>
                         <div className="flex justify-between text-gray-700">
-                            <span>Items {paymentSummary?.totalItems}:</span>
+                            <span>Items : ({paymentSummary?.totalItems})</span>
                             <span className="font-medium">{formatCurrency(paymentSummary?.productCostCents ?? 0)}</span>
                         </div>
                         <div className="flex justify-between text-gray-700">

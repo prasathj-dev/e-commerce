@@ -4,6 +4,11 @@ import DeliveryOption from '../../delivery/components/DeliveryOption';
 import { useFetchcartItems } from '../hooks/useFetchCart';
 import { useDeliveryOptions } from '../../delivery/hooks/useDeliveryOptions';
 import dayjs from 'dayjs';
+import { useDeleteCartItem } from '../hooks/useDeleteCartItem';
+import QuantitySelect from '../../../components/QuantitySelect';
+import { MdDeleteOutline } from 'react-icons/md';
+import { useUpdateCartItemQuantity } from '../hooks/useUpdateCartItemQuantity';
+
 
 
 
@@ -11,6 +16,9 @@ export default function CartItem() {
 
   const { data: deliveryOptions } = useDeliveryOptions();
   const { data: carts, isLoading, error } = useFetchcartItems();
+  const { mutate: deleteCartItem } = useDeleteCartItem();
+  const { mutate: updateCartQuantity } = useUpdateCartItemQuantity();
+
 
   const getDeliveryDate = (cartitem: CartItem) => {
     const selectedOption = deliveryOptions?.find(
@@ -22,13 +30,22 @@ export default function CartItem() {
       : "Select delivery option";
   }
 
+
+
   return (
     <>
       {carts?.map((item: CartItemType) => (
         <div key={item.productId} className="bg-white rounded-xl shadow-md p-4 mb-4">
-          <div className="text-gray-500 text-sm mb-3">
-            Delivery date: {getDeliveryDate(item)}
+
+          <div className="flex justify-between">
+            <div className="text-gray-500 text-sm mb-3">
+              Delivery date: {getDeliveryDate(item)}
+            </div>
+            <div>
+              <MdDeleteOutline className=" hover:cursor-pointer text-red-500 text-xl " onClick={() => deleteCartItem({ productId: item.productId })} />
+            </div>
           </div>
+
 
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
             <div className="sm:col-span-3">
@@ -47,10 +64,10 @@ export default function CartItem() {
 
               <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
                 <span>
-                  Quantity: <span className="font-medium">{item.quantity}</span>
+                  <QuantitySelect initialQuantity={item.quantity} onQuantityChange={(q) => updateCartQuantity({ cartItemId: item.id, quantity: q })} />
                 </span>
-                <button className="text-blue-600 hover:underline">Update</button>
-                <button className="text-red-600 hover:underline">Delete</button>
+                {/* <button className="bg-blue-600 hover:bg-blue-500 text-white font-medium px-3 py-1 rounded-md transition-colors duration-200">Update</button> */}
+
               </div>
             </div>
 

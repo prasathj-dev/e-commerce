@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import './index.css'
 import App from './App.tsx'
 import CheckoutPage from './pages/checkout/CheckoutPage.tsx';
-import OrdersPage from './pages/order/order/OrdersPage.tsx';
+import OrdersPage from './pages/order/OrdersPage.tsx';
 import TrackingPage from './pages/tracking/TrackingPage.tsx';
 import HomePage from './pages/home/HomePage.tsx';
 

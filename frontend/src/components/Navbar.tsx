@@ -20,7 +20,7 @@ export default function Navbar() {
         queryKey: ['cart']
     })
 
-    const cartQuantityCount = carts?.reduce((acc, item) => acc + item.quantity, 0)
+    const cartquantityCount = carts?.reduce((acc, item) => acc + item.quantity, 0)
 
     const onSearch = () => {
         setSearchText(inputText);
@@ -78,7 +78,7 @@ export default function Navbar() {
                             <img className="h-6 w-6" src="images/icons/cart-icon.png" alt="cart" />
                             <div className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-semibold 
             rounded-full h-5 w-5 flex items-center justify-center">
-                                {cartQuantityCount}
+                                {cartquantityCount}
                             </div>
                             <span className="ml-2 text-lg hidden md:block">Cart</span>
                         </a>

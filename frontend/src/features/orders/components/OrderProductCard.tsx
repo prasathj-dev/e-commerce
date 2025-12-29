@@ -1,7 +1,9 @@
 import dayjs from "dayjs";
 import type { OrderedProduct } from "../types/orderedProduct";
+import { useAddToCart } from "../../cart/hooks/useAddToCart";
 
 const OrderProductCard = ({ orderProduct }: { orderProduct: OrderedProduct }) => {
+    const { mutate: addToCart, isSuccess } = useAddToCart();
 
 
     return (
@@ -31,7 +33,7 @@ const OrderProductCard = ({ orderProduct }: { orderProduct: OrderedProduct }) =>
 
                 {/* Buttons */}
                 <div className="flex flex-col gap-2 sm:shrink-0 sm:w-40">
-                    <button className="w-full flex items-center justify-center bg-emerald-700 hover:bg-emerald-600 text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors duration-200">
+                    <button onClick={() => addToCart({ productId: orderProduct.product.id, quantity: orderProduct.quantity })} className="w-full flex items-center justify-center bg-emerald-700 hover:bg-emerald-600 text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors duration-200">
                         <img
                             src="images/icons/buy-again.png"
                             alt="Buy Again"

@@ -1,8 +1,23 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { formatCurrency } from "../../../utils/currency-convert";
 import { usePaymentSummary } from "../hooks/usePaymentSummary";
+import { placeOrder } from "../../orders/api/order";
+import { useNavigate } from "react-router";
 
 const PaymentSummary = () => {
     const { data: paymentSummary } = usePaymentSummary();
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
+
+    const { mutate: onPlaceOrder } = useMutation({
+        mutationFn: placeOrder,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['cart'] })
+            navigate('/');
+
+        }
+    })
+
     return (
         <div className="bg-white rounded-xl shadow-md p-6 flex flex-col space-y-4">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
@@ -32,7 +47,7 @@ const PaymentSummary = () => {
                             <span>{formatCurrency(paymentSummary?.totalCostCents ?? 0)}</span>
                         </div>
 
-                        <button className="mt-4 w-full bg-emerald-700 hover:bg-emerald-600 text-white font-semibold py-3 rounded-xl transition-colors duration-200">
+                        <button onClick={() => onPlaceOrder()} className="mt-4 w-full bg-emerald-700 hover:bg-emerald-600 text-white font-semibold py-3 rounded-xl transition-colors duration-200">
                             Place your order
                         </button>
                     </>

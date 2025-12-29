@@ -1,9 +1,9 @@
-import dayjs from "dayjs";
 import { formatCurrency } from "../../../utils/currency-convert";
 import type { Order } from "../types/order";
 import OrderProductCard from "./OrderProductCard";
 
 const OrderCard = ({ order }: { order: Order }) => {
+
     return (
         <>
             <div

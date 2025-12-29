@@ -8,7 +8,7 @@ type ProductProps = {
 }
 
 export default function ProductCard({ product }: ProductProps) {
-    const { mutate: addToCart } = useAddToCart();
+    const { mutate: addToCart, isSuccess } = useAddToCart();
     const [selectedQuantity, setSelectedQuantity] = useState(1);
 
     return (
@@ -52,10 +52,15 @@ export default function ProductCard({ product }: ProductProps) {
                     Add to Cart
                 </button>
 
-                <div className="flex items-center justify-center text-green-600 font-medium space-x-1">
-                    <img src="images/icons/checkmark.png" alt="Added" className="h-5 w-5" />
-                    <span>Added</span>
-                </div>
+                {
+                    isSuccess && (
+                        <div className="flex items-center justify-center text-green-600 font-medium space-x-1">
+                            <img src="images/icons/checkmark.png" alt="Added" className="h-5 w-5" />
+                            <span>Added</span>
+                        </div>
+                    )
+                }
+
             </div>
 
         </>

@@ -66,8 +66,6 @@ export default function CartItem() {
                 <span>
                   <QuantitySelect initialQuantity={item.quantity} onQuantityChange={(q) => updateCartQuantity({ cartItemId: item.id, quantity: q })} />
                 </span>
-                {/* <button className="bg-blue-600 hover:bg-blue-500 text-white font-medium px-3 py-1 rounded-md transition-colors duration-200">Update</button> */}
-
               </div>
             </div>
 
